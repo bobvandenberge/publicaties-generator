@@ -43,7 +43,7 @@ public class SlackAPI {
     private List<SlackMessagePosted> filterMessagesWithLinks(final List<SlackMessagePosted> messages) {
         return messages
                 .stream()
-                .filter(x -> x.getMessageContent().contains("http") || x.getMessageContent().contains("www"))
+                .filter(x -> x.getMessageContent().contains("http://") || x.getMessageContent().contains("https://") || x.getMessageContent().contains("www"))
                 .collect(toList());
     }
 
