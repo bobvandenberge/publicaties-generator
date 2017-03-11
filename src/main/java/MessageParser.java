@@ -8,6 +8,9 @@ public class MessageParser {
     private HtmlUtil htmlUtil = new HtmlUtil();
 
     public String parse(String message) {
+        // Remove new lines because we don't want them in the final result + the regex cant parse them
+        message = message.replaceAll("\\r\\n|\\r|\\n", " ");
+
         Pattern patternFormat1 = compile("<(.*)> +(.*)");
         Matcher matcherFormat1 = patternFormat1.matcher(message);
 
