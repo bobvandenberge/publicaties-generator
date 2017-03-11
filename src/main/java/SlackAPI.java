@@ -7,15 +7,32 @@ import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.temporal.ChronoUnit;
 
+import java.io.InputStream;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 public class SlackAPI {
-    private final String token = "YOUR_SLACK_API_TOKEN";
+    private final String token;
+
+    public SlackAPI() {
+        token = getApiKey();
+    }
+
+    private String getApiKey() {
+        Properties properties = new Properties();
+        try {
+            final InputStream inputStream = SlackAPI.class.getClassLoader().getResourceAsStream(("application.properties"));
+            properties.load(inputStream);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        return properties.getProperty("slackApiToken");
+    }
 
     public List<SlackMessagePosted> getLastWeeksLinks() {
         List<SlackMessagePosted> messages = getLastWeeksMessages();
